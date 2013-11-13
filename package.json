@@ -1,0 +1,33 @@
+{
+  "name": "stream-tk",
+  "description": "Toolkit for handling Node.js data streams",
+  "version": "0.0.1",
+  "homepage": "https://github.com/lfortin/node-stream-tk",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lfortin/node-stream-tk.git"
+  },
+  "author": {
+    "name": "Laurent Fortin",
+    "email": "laurent.fortin@gmail.com",
+    "url": "http://lfortin.github.com"
+  },
+  "main": "./stream-tk.js",
+  "engines": {
+    "node": ">=0.9.6"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "node spec-runner.js"
+  },
+  "keywords": [
+    "stream",
+    "streams",
+    "toolkit",
+    "utility",
+    "extend"
+  ],
+  "license": "MIT",
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
