@@ -40,10 +40,10 @@ tester.run(function() {
   //assert.ok(stk.streamize, ".streamize() method expected");
   //assert.ok(stk.compose, "compose() method expected");
   //assert.ok(stk.extend, ".extend() method expected");
-  assert.ok(stk.dev.Null, ".dev.Null() method expected");
-  assert.ok(stk.dev.Zero, ".dev.Zero() method expected");
-  assert.ok(stk.dev.Full, ".dev.Full() method expected");
-  assert.ok(stk.dev.Random, ".dev.Random() method expected");
+  assert.ok(stk.createNull, ".createNull() method expected");
+  assert.ok(stk.createZero, ".createZero() method expected");
+  assert.ok(stk.createFull, ".createFull() method expected");
+  assert.ok(stk.createRandom, ".createRandom() method expected");
   //assert.ok(monitor.whatever, "whatever expected");
 
   process.stdout.write("API signature OK" + getEOL(1));

@@ -51,9 +51,8 @@ stk.isFlowing = function isFlowing(obj) {
   return this.isReadable(obj) && !!obj._readableState.flowing;
 };
 
-stk.dev = {};
 
-stk.dev.Null = function Null(mode) {
+stk.createNull = function createNull(mode) {
   if(mode === "read") {
     return fs.createReadStream("/dev/null");
   }
@@ -63,7 +62,7 @@ stk.dev.Null = function Null(mode) {
   throw new Error("mode must me either 'read or 'write'");
 };
 
-stk.dev.Zero = function Zero(mode, length) {
+stk.createZero = function createZero(mode, length) {
   if(mode === "read") {
     if(!Number(length)) {
       throw new Error("must provide length in bytes");
@@ -76,7 +75,7 @@ stk.dev.Zero = function Zero(mode, length) {
   throw new Error("mode must me either 'read or 'write'");
 };
 
-stk.dev.Full = function Full(mode, length) {
+stk.createFull = function createFull(mode, length) {
   if(mode === "read") {
     if(!Number(length)) {
       throw new Error("must provide length in bytes");
@@ -89,7 +88,7 @@ stk.dev.Full = function Full(mode, length) {
   throw new Error("mode must me either 'read or 'write'");
 };
 
-stk.dev.Random = function Random(mode, length) {
+stk.createRandom = function createRandom(mode, length) {
   if(mode === "read") {
     if(!Number(length)) {
       throw new Error("must provide length in bytes");
