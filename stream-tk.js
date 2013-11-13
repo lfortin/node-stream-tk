@@ -26,34 +26,34 @@ var stream   = require('stream'),
     fs       = require('fs');
 
 
-var xstream = {};
+var stk = {};
 
-xstream.version = '0.0.1';
+stk.version = '0.0.1';
 
 
-xstream.isStream = function isStream(obj) {
+stk.isStream = function isStream(obj) {
   return obj instanceof stream.Readable || obj instanceof stream.Writable;
 };
 
-xstream.isReadable = function isReadable(obj) {
+stk.isReadable = function isReadable(obj) {
   return this.isStream(obj) && !!obj.readable;
 };
 
-xstream.isWritable = function isWritable(obj) {
+stk.isWritable = function isWritable(obj) {
   return this.isStream(obj) && !!obj.writable;
 };
 
-xstream.isTransform = function isTransform(obj) {
+stk.isTransform = function isTransform(obj) {
   return obj instanceof stream.Transform;
 };
 
-xstream.isFlowing = function isFlowing(obj) {
+stk.isFlowing = function isFlowing(obj) {
   return this.isReadable(obj) && !!obj._readableState.flowing;
 };
 
-xstream.dev = {};
+stk.dev = {};
 
-xstream.dev.Null = function Null(mode) {
+stk.dev.Null = function Null(mode) {
   if(mode === "read") {
     return fs.createReadStream("/dev/null");
   }
@@ -63,7 +63,7 @@ xstream.dev.Null = function Null(mode) {
   throw new Error("mode must me either 'read or 'write'");
 };
 
-xstream.dev.Zero = function Zero(mode, length) {
+stk.dev.Zero = function Zero(mode, length) {
   if(mode === "read") {
     if(!Number(length)) {
       throw new Error("must provide length in bytes");
@@ -76,7 +76,7 @@ xstream.dev.Zero = function Zero(mode, length) {
   throw new Error("mode must me either 'read or 'write'");
 };
 
-xstream.dev.Full = function Full(mode, length) {
+stk.dev.Full = function Full(mode, length) {
   if(mode === "read") {
     if(!Number(length)) {
       throw new Error("must provide length in bytes");
@@ -89,7 +89,7 @@ xstream.dev.Full = function Full(mode, length) {
   throw new Error("mode must me either 'read or 'write'");
 };
 
-xstream.dev.Random = function Random(mode, length) {
+stk.dev.Random = function Random(mode, length) {
   if(mode === "read") {
     if(!Number(length)) {
       throw new Error("must provide length in bytes");
@@ -102,5 +102,5 @@ xstream.dev.Random = function Random(mode, length) {
   throw new Error("mode must me either 'read or 'write'");
 };
 
-module.exports = xstream;
+module.exports = stk;
 
