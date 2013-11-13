@@ -1,4 +1,13 @@
 node-stream-tk
 ==============
 
-Toolkit for handling Node.js data streams
+A toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node.js
+
+(More documentation to be added)
+
+
+## Installation
+
+    npm install stream-tk
+
+
