@@ -23,6 +23,7 @@
 
 
 var stream   = require('stream'),
+    util     = require('util'),
     fs       = require('fs');
 
 
@@ -36,11 +37,11 @@ stk.isStream = function isStream(obj) {
 };
 
 stk.isReadable = function isReadable(obj) {
-  return this.isStream(obj) && !!obj.readable;
+  return stk.isStream(obj) && !!obj.readable;
 };
 
 stk.isWritable = function isWritable(obj) {
-  return this.isStream(obj) && !!obj.writable;
+  return stk.isStream(obj) && !!obj.writable;
 };
 
 stk.isTransform = function isTransform(obj) {
@@ -48,7 +49,26 @@ stk.isTransform = function isTransform(obj) {
 };
 
 stk.isFlowing = function isFlowing(obj) {
-  return this.isReadable(obj) && !!obj._readableState.flowing;
+  return stk.isReadable(obj) && !!obj._readableState.flowing;
+};
+
+stk.isPipeOn = function isPipeOn(source, dest) {
+  var found = false;
+
+  if(!stk.isReadable(source)) {
+    return false;
+  }
+  if(stk.isWritable(source._readableState.pipes)) {
+    return source._readableState.pipes === dest;
+  }
+  if(util.isArray(source._readableState.pipes)) {
+    source._readableState.pipes.forEach(function(el) {
+      if(dest === el) {
+        found = true;
+      }
+    });
+  }
+  return found;
 };
 
 

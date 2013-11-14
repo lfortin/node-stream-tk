@@ -34,8 +34,7 @@ tester.run(function() {
   assert.ok(stk.isTransform, ".isTransform() method expected");
   //assert.ok(stk.isPassThrough, ".isPassThrough() method expected");
   assert.ok(stk.isFlowing, ".isFlowing() method expected");
-  //assert.ok(stk.pipeOn, ".pipeOn() method expected");
-  //assert.ok(stk.pipeBy, ".pipeBy() method expected");
+  assert.ok(stk.isPipeOn, ".isPipeOn() method expected");
   //assert.ok(stk.bufferize, ".bufferize() method expected");
   //assert.ok(stk.streamize, ".streamize() method expected");
   //assert.ok(stk.compose, "compose() method expected");
@@ -114,6 +113,16 @@ tester.run(function() {
   assert.deepEqual(stk.isFlowing(duplex),    false, "stk.isFlowing(duplex) : false expected");
   assert.deepEqual(stk.isFlowing(transform), false, "stk.isFlowing(transform) : false expected");
   assert.deepEqual(stk.isFlowing(through),   false, "stk.isFlowing(through) : false expected");
+
+  assert.deepEqual(stk.isPipeOn(writable, readable),  false, "stk.isPipeOn(writable, readable) : false expected");
+  assert.deepEqual(stk.isPipeOn(readable, writable),  false, "stk.isPipeOn(readable, writable) : false expected");
+  readable.pipe(writable);
+  assert.deepEqual(stk.isPipeOn(readable, writable),  true, "stk.isPipeOn(readable, writable) : true expected");
+  readable.pipe(through);
+  assert.deepEqual(stk.isPipeOn(readable, writable),  true, "stk.isPipeOn(readable, writable) : true expected");
+  assert.deepEqual(stk.isPipeOn(readable, through),  true, "stk.isPipeOn(readable, through) : true expected");
+  readable.unpipe(writable);
+  assert.deepEqual(stk.isPipeOn(readable, writable),  false, "stk.isPipeOn(readable, writable) : false expected");
 
   process.stdout.write("test methods OK" + getEOL(1));
 });
