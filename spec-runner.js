@@ -35,7 +35,7 @@ tester.run(function() {
   //assert.ok(stk.isPassThrough, ".isPassThrough() method expected");
   assert.ok(stk.isFlowing, ".isFlowing() method expected");
   assert.ok(stk.isPipeOn, ".isPipeOn() method expected");
-  //assert.ok(stk.bufferize, ".bufferize() method expected");
+  assert.ok(stk.bufferize, ".bufferize() method expected");
   //assert.ok(stk.streamize, ".streamize() method expected");
   //assert.ok(stk.compose, "compose() method expected");
   //assert.ok(stk.extend, ".extend() method expected");
@@ -125,5 +125,19 @@ tester.run(function() {
   assert.deepEqual(stk.isPipeOn(readable, writable),  false, "stk.isPipeOn(readable, writable) : false expected");
 
   process.stdout.write("test methods OK" + getEOL(1));
+
+
+  var buf = stk.bufferize(through, 1024, function(err, buf) {
+    assert.deepEqual(buf.length, 1024, "buffer.length === 1024 expected");
+    assert.deepEqual(buf.toString("utf8", 0, 4), "test", "first 4 chars of buffer === 'test' expected");
+
+    process.stdout.write("bufferize method callback OK" + getEOL(1));
+  });
+  through.resume();
+  through.write("test", "utf8");
+  through.write(new Buffer(1020));
+  assert.deepEqual(buf.length, 1024, "buffer.length === 1024 expected");
+
+  process.stdout.write("bufferize method OK" + getEOL(1));
 });
 

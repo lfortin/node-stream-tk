@@ -72,6 +72,46 @@ stk.isPipeOn = function isPipeOn(source, dest) {
 };
 
 
+stk.bufferize = function bufferize(source, buf, callback) {
+  var targetStart = 0,
+      handler;
+
+  if(!stk.isReadable(source)) {
+    throw new Error("source must be a Readable Stream");
+  }
+  if(!Buffer.isBuffer(buf) && !Number(buf)) {
+    throw new Error("destination must be a Buffer of a number");
+  }
+
+  buf = Buffer.isBuffer(buf) ? buf : new Buffer(buf);
+
+  var flowing = stk.isFlowing(source);
+
+  try {
+    handler = function(data) {
+      data.copy(buf, targetStart, 0, data.length);
+
+      targetStart += data.length;
+
+      if(targetStart >= buf.length) {
+        (callback || function(){})(undefined, buf);
+        source.removeListener('data', handler);
+      }
+    };
+
+    source.on('data', handler);
+
+    if(!flowing) {
+      source.pause();
+    }
+  } catch(err) {
+    (callback || function(){})(err, buf);
+  }
+
+  return buf;
+};
+
+
 stk.createNull = function createNull(mode) {
   if(mode === "read") {
     return fs.createReadStream("/dev/null");
