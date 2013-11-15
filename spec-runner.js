@@ -37,7 +37,7 @@ tester.run(function() {
   assert.ok(stk.isPipeOn, ".isPipeOn() method expected");
   //assert.ok(stk.bufferize, ".bufferize() method expected");
   //assert.ok(stk.streamize, ".streamize() method expected");
-  //assert.ok(stk.compose, "compose() method expected");
+  assert.ok(stk.compose, "compose() method expected");
   //assert.ok(stk.extend, ".extend() method expected");
   assert.ok(stk.createNull, ".createNull() method expected");
   assert.ok(stk.createZero, ".createZero() method expected");

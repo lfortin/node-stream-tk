@@ -72,6 +72,27 @@ stk.isPipeOn = function isPipeOn(source, dest) {
 };
 
 
+stk.compose = function compose() {
+
+  var items,
+      first,
+      last;
+  if(util.isArray(arguments[0])) {
+    items = arguments[0];
+  } else {
+    items = arguments;
+  }
+  Array.prototype.forEach.call(items, function(item) {
+    
+  });
+
+  var transform = new stream.Transform();
+  transform._transform = function(data) {
+    
+  };
+};
+
+
 stk.createNull = function createNull(mode) {
   if(mode === "read") {
     return fs.createReadStream("/dev/null");
