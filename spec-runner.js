@@ -129,14 +129,26 @@ tester.run(function() {
 
   var buf = stk.bufferize(through, 1024, function(err, buf) {
     assert.deepEqual(buf.length, 1024, "buffer.length === 1024 expected");
-    assert.deepEqual(buf.toString("utf8", 0, 4), "test", "first 4 chars of buffer === 'test' expected");
+    assert.deepEqual(buf.toString("utf8", 4, 8), "test", "chars 4 to 8 of buffer === 'test' expected");
 
     process.stdout.write("bufferize method callback OK" + getEOL(1));
   });
   through.resume();
   through.write("test", "utf8");
-  through.write(new Buffer(1020));
+  through.write("test", "utf8");
+  through.write(new Buffer(2000));
   assert.deepEqual(buf.length, 1024, "buffer.length === 1024 expected");
+
+  var buf2 = stk.bufferize(through, new Buffer(1024), function(err, buf) {
+    assert.deepEqual(buf.length, 1024, "buffer.length === 1024 expected");
+    assert.deepEqual(buf.toString("utf8", 4, 8), "test", "chars 4 to 8 of buffer === 'test' expected");
+
+    process.stdout.write("bufferize method callback OK" + getEOL(1));
+  });
+  through.write("test", "utf8");
+  through.write("test", "utf8");
+  through.write(new Buffer(2000));
+  assert.deepEqual(buf2.length, 1024, "buffer.length === 1024 expected");
 
   process.stdout.write("bufferize method OK" + getEOL(1));
 });

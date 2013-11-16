@@ -87,8 +87,8 @@ stk.bufferize = function bufferize(source, buf, callback) {
 
   var flowing = stk.isFlowing(source);
 
-  try {
-    handler = function(data) {
+  handler = function(data) {
+    try {
       data.copy(buf, targetStart, 0, data.length);
 
       targetStart += data.length;
@@ -97,15 +97,15 @@ stk.bufferize = function bufferize(source, buf, callback) {
         (callback || function(){})(undefined, buf);
         source.removeListener('data', handler);
       }
-    };
-
-    source.on('data', handler);
-
-    if(!flowing) {
-      source.pause();
+    } catch(err) {
+      (callback || function(){})(err, buf);
     }
-  } catch(err) {
-    (callback || function(){})(err, buf);
+  };
+
+  source.on('data', handler);
+
+  if(!flowing) {
+    source.pause();
   }
 
   return buf;
