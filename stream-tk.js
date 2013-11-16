@@ -72,6 +72,38 @@ stk.isPipeOn = function isPipeOn(source, dest) {
 };
 
 
+stk.extend = function extend(obj) {
+  if(!stk.isStream(obj)) {
+    throw new Error("must provide a Stream instance");
+  }
+  
+  // TODO: the following code could probably be reduced to 3-5 lines
+  obj.isReadable = (function() {
+    return stk.isReadable(this);
+  }).bind(obj);
+
+  obj.isWritable = (function() {
+    return stk.isWritable(this);
+  }).bind(obj);
+
+  obj.isTransform = (function() {
+    return stk.isTransform(this);
+  }).bind(obj);
+
+  obj.isFlowing = (function() {
+    return stk.isFlowing(this);
+  }).bind(obj);
+
+  obj.isPipeOn = (function(dest) {
+    return stk.isPipeOn(this, dest);
+  }).bind(obj);
+
+  /** add custom behavior and properties here **/
+
+  return obj;
+};
+
+
 stk.createNull = function createNull(mode) {
   if(mode === "read") {
     return fs.createReadStream("/dev/null");

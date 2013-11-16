@@ -38,7 +38,7 @@ tester.run(function() {
   //assert.ok(stk.bufferize, ".bufferize() method expected");
   //assert.ok(stk.streamize, ".streamize() method expected");
   //assert.ok(stk.compose, "compose() method expected");
-  //assert.ok(stk.extend, ".extend() method expected");
+  assert.ok(stk.extend, ".extend() method expected");
   assert.ok(stk.createNull, ".createNull() method expected");
   assert.ok(stk.createZero, ".createZero() method expected");
   assert.ok(stk.createFull, ".createFull() method expected");
@@ -125,5 +125,25 @@ tester.run(function() {
   assert.deepEqual(stk.isPipeOn(readable, writable),  false, "stk.isPipeOn(readable, writable) : false expected");
 
   process.stdout.write("test methods OK" + getEOL(1));
+
+
+  stk.extend(readable);
+
+  // extended object API signature
+  assert.ok(readable.isReadable, ".isReadable() extended object method expected");
+  assert.ok(readable.isWritable, ".isWritable() extended object method expected");
+  assert.ok(readable.isTransform, ".isTransform() extended object method expected");
+  //assert.ok(readable.isPassThrough, ".isPassThrough() extended object method expected");
+  assert.ok(readable.isFlowing, ".isFlowing() extended object method expected");
+  assert.ok(readable.isPipeOn, ".isPipeOn() extended object method expected");
+
+  assert.deepEqual(readable.isReadable(), true, "readable.isReadable() : true expected");
+  assert.deepEqual(readable.isWritable(), false, "readable.isWritable() : false expected");
+  assert.deepEqual(readable.isTransform(), false, "readable.isTransform() : false expected");
+  assert.deepEqual(readable.isFlowing(), true, "readable.isFlowing() : true expected");
+  assert.deepEqual(readable.isPipeOn(through), true, "readable.isPipeOn(through) : true expected");
+  assert.deepEqual(readable.isPipeOn(writable), false, "readable.isPipeOn(writable) : false expected");
+
+  process.stdout.write("extended object methods OK" + getEOL(1));
 });
 
