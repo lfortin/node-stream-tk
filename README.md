@@ -11,7 +11,7 @@ A toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node
     npm install stream-tk
 
 
-## test methods
+## test methods API
 
 ### .isStream( obj )
 
@@ -77,4 +77,49 @@ Returns `true` if Readable stream source in piped on Writable stream destination
     readable.pipe(writable);
     
     stk.isPipeOn(readable, writable); // -> true
+    
+## UNIX pseudo devices API
+
+### .createNull( mode )
+
+Creates a data stream mapped to the `/dev/null` pseudo device. Either 'read' or 'write' must be provided as `mode` parameter.
+
+    var sink = stk.createNull('write');
+    anyReadable.pipe(sink);
+
+### .createZero( mode, length )
+
+Creates a data stream mapped to the `/dev/zero` pseudo device. Either 'read' or 'write' must be provided as `mode` parameter.
+The `length` parameter is also mandatory in 'read' mode.
+
+    // create a 1k file filled with 0 bits
+    var zeroSource = stk.createZero('read', 1024);
+    var file = require('fs').createWriteStream('zeros.txt');
+    zeroSource.pipe(file);
+    
+    var sink = stk.createZero('write');
+    anyReadable.pipe(sink);
+
+### .createFull( mode, length )
+
+Creates a data stream mapped to the `/dev/full` pseudo device. Either 'read' or 'write' must be provided as `mode` parameter.
+The `length` parameter is also mandatory in 'read' mode.
+
+    // create a 1k file filled with 0 bits
+    var zeroSource = stk.createFull('read', 1024);
+    var file = require('fs').createWriteStream('zeros.txt');
+    zeroSource.pipe(file);
+
+### .createRandom( mode, length )
+
+Creates a data stream mapped to the `/dev/urandom` pseudo device. Either 'read' or 'write' must be provided as `mode` parameter.
+The `length` parameter is also mandatory in 'read' mode.
+
+    // create a 1k file filled with pseudo-random binary
+    var randomSource = stk.createRandom('read', 1024);
+    var file = require('fs').createWriteStream('random.txt');
+    randomSource.pipe(file);
+    
+    // mix random data into the pool
+    stk.createRandom('write').write("anything");
     
