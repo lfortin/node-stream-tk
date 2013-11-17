@@ -13,6 +13,8 @@ A toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node
 
 ## test methods API
 
+`stream-tk` provides many test methods.
+
 ### .isStream( obj )
 
 Returns `true` if object is a data [stream](http://nodejs.org/api/stream.html).
@@ -79,6 +81,9 @@ Returns `true` if Readable stream source in piped on Writable stream destination
     stk.isPipeOn(readable, writable); // -> true
     
 ## UNIX pseudo devices API
+
+`stream-tk` provides data stream mappings to UNIX pseudo devices(`/dev/null`, `/dev/zero`, `/dev/full`, `/dev/urandom`).
+Currently, this feature is not available for the Windows platform, but it might be supported later.
 
 ### .createNull( mode )
 
