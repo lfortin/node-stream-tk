@@ -136,7 +136,7 @@ tester.run(function() {
   through.resume();
   through.write("test", "utf8");
   through.write("test", "utf8");
-  through.write(new Buffer(2000));
+  through.write(new Buffer(10000));
   assert.deepEqual(buf.length, 1024, "buffer.length === 1024 expected");
 
   var buf2 = stk.bufferize(through, new Buffer(1024), function(err, buf) {
@@ -147,7 +147,7 @@ tester.run(function() {
   });
   through.write("test", "utf8");
   through.write("test", "utf8");
-  through.write(new Buffer(2000));
+  through.write(new Buffer(10000));
   assert.deepEqual(buf2.length, 1024, "buffer.length === 1024 expected");
 
   process.stdout.write("bufferize method OK" + getEOL(1));
