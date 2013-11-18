@@ -100,6 +100,16 @@ stk.extend = function extend(obj) {
 
   /** add custom behavior and properties here **/
 
+  // prevent potentially infinite loop
+  if(stk.isTransform(obj)) {
+    obj.on('pipe', function(src) {
+      if (this === src) {
+        this.unpipe(this);
+        throw new Error('Cannot pipe Transform onto itself');
+      }
+    });
+  }
+
   return obj;
 };
 

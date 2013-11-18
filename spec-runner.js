@@ -128,6 +128,7 @@ tester.run(function() {
 
 
   stk.extend(readable);
+  stk.extend(through);
 
   // extended object API signature
   assert.ok(readable.isReadable, ".isReadable() extended object method expected");
@@ -143,6 +144,21 @@ tester.run(function() {
   assert.deepEqual(readable.isFlowing(), true, "readable.isFlowing() : true expected");
   assert.deepEqual(readable.isPipeOn(through), true, "readable.isPipeOn(through) : true expected");
   assert.deepEqual(readable.isPipeOn(writable), false, "readable.isPipeOn(writable) : false expected");
+
+  assert.throws(
+    function() {
+      through.pipe(through);
+    },
+    Error,
+    "through.pipe(through) : should throw Error"
+  );
+
+  assert.doesNotThrow(
+    function() {
+      readable.pipe(through);
+    },
+    "readable.pipe(through) : should not throw Error"
+  );
 
   process.stdout.write("extended object methods OK" + getEOL(1));
 });
