@@ -13,6 +13,8 @@ A toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node
 
 ## test methods API
 
+`stream-tk` provides many test methods.
+
 ### .isStream( obj )
 
 Returns `true` if object is a data [stream](http://nodejs.org/api/stream.html).
@@ -78,7 +80,29 @@ Returns `true` if Readable stream source in piped on Writable stream destination
     
     stk.isPipeOn(readable, writable); // -> true
     
+## Extending stream objects using .extend( )
+
+The `.extend()` method allows you to extend stream objects with methods from the `stream-tk` API:
+
+    var myStream = new stream.PassThrough();
+
+    stk.extend(myStream);
+    
+    myStream.isReadable(); // -> true
+    myStream.isWritable(); // -> true
+    myStream.isTransform(); // -> true
+    myStream.isFlowing(); // -> false
+    myStream.isPipeOn(process.stdout); // -> false
+    
+    myStream.pipe(process.stdout);
+    
+    myStream.isFlowing(); // -> true
+    myStream.isPipeOn(process.stdout); // -> true
+    
 ## UNIX pseudo devices API
+
+`stream-tk` provides data stream mappings to UNIX pseudo devices(`/dev/null`, `/dev/zero`, `/dev/full`, `/dev/urandom`).
+Currently, this feature is not available for the Windows platform, but it might be supported later.
 
 ### .createNull( mode )
 
