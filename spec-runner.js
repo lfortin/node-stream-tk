@@ -128,6 +128,14 @@ tester.run(function() {
 
 
   // extended object API signature
+  assert.throws(
+    function() {
+      stk.extend(obj);
+    },
+    Error,
+    "stk.extend(obj) : should throw Error"
+  );
+
   stk.extend(readable);
   stk.extend(through);
 
