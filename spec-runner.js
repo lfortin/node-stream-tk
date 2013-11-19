@@ -127,10 +127,10 @@ tester.run(function() {
   process.stdout.write("test methods OK" + getEOL(1));
 
 
+  // extended object API signature
   stk.extend(readable);
   stk.extend(through);
 
-  // extended object API signature
   assert.ok(readable.isReadable, ".isReadable() extended object method expected");
   assert.ok(readable.isWritable, ".isWritable() extended object method expected");
   assert.ok(readable.isTransform, ".isTransform() extended object method expected");
