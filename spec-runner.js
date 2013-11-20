@@ -34,6 +34,7 @@ tester.run(function() {
   assert.ok(stk.isTransform, ".isTransform() method expected");
   //assert.ok(stk.isPassThrough, ".isPassThrough() method expected");
   assert.ok(stk.isFlowing, ".isFlowing() method expected");
+  assert.ok(stk.isEnded, ".isEnded() method expected");
   assert.ok(stk.isPipeOn, ".isPipeOn() method expected");
   //assert.ok(stk.bufferize, ".bufferize() method expected");
   //assert.ok(stk.streamize, ".streamize() method expected");
@@ -113,6 +114,28 @@ tester.run(function() {
   assert.deepEqual(stk.isFlowing(duplex),    false, "stk.isFlowing(duplex) : false expected");
   assert.deepEqual(stk.isFlowing(transform), false, "stk.isFlowing(transform) : false expected");
   assert.deepEqual(stk.isFlowing(through),   false, "stk.isFlowing(through) : false expected");
+
+  var readableToEnd = new stream.Readable();
+  var writableToEnd = new stream.Writable();
+  var duplexToEnd1 = new stream.Duplex();
+  var duplexToEnd2 = new stream.Duplex();
+  readableToEnd._read = function(){};
+  writableToEnd._write = function(){};
+  duplexToEnd1._write = function(){};
+  duplexToEnd2._read = function(){};
+
+  assert.deepEqual(stk.isEnded(readableToEnd),  false, "stk.isEnded(readableToEnd) : false expected");
+  assert.deepEqual(stk.isEnded(writableToEnd),  false, "stk.isEnded(writableToEnd) : false expected");
+  assert.deepEqual(stk.isEnded(duplexToEnd1),  false, "stk.isEnded(duplexToEnd1) : false expected");
+  assert.deepEqual(stk.isEnded(duplexToEnd2),  false, "stk.isEnded(duplexToEnd2) : false expected");
+  readableToEnd.push(null);
+  writableToEnd.end();
+  duplexToEnd1.end();
+  duplexToEnd2.push(null);
+  assert.deepEqual(stk.isEnded(readableToEnd),  true, "stk.isEnded(readableToEnd) : true expected");
+  assert.deepEqual(stk.isEnded(writableToEnd),  true, "stk.isEnded(writableToEnd) : true expected");
+  assert.deepEqual(stk.isEnded(duplexToEnd1),  true, "stk.isEnded(duplexToEnd1) : true expected");
+  assert.deepEqual(stk.isEnded(duplexToEnd2),  true, "stk.isEnded(duplexToEnd2) : true expected");
 
   assert.deepEqual(stk.isPipeOn(writable, readable),  false, "stk.isPipeOn(writable, readable) : false expected");
   assert.deepEqual(stk.isPipeOn(readable, writable),  false, "stk.isPipeOn(readable, writable) : false expected");

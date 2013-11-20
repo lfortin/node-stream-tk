@@ -52,6 +52,18 @@ stk.isFlowing = function isFlowing(obj) {
   return stk.isReadable(obj) && !!obj._readableState.flowing;
 };
 
+stk._isReadableEnded = function (obj) {
+  return stk.isReadable(obj) && !!obj._readableState.ended;
+};
+
+stk._isWritableEnded = function (obj) {
+  return stk.isWritable(obj) && !!obj._writableState.ended;
+};
+
+stk.isEnded = function isEnded(obj) {
+  return stk._isReadableEnded(obj) || stk._isWritableEnded(obj);
+};
+
 stk.isPipeOn = function isPipeOn(source, dest) {
   var found = false;
 
@@ -92,6 +104,10 @@ stk.extend = function extend(obj) {
 
   obj.isFlowing = (function() {
     return stk.isFlowing(this);
+  }).bind(obj);
+
+  obj.isEnded = (function() {
+    return stk.isEnded(this);
   }).bind(obj);
 
   obj.isPipeOn = (function(dest) {
