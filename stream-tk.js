@@ -37,11 +37,11 @@ stk.isStream = function isStream(obj) {
 };
 
 stk.isReadable = function isReadable(obj) {
-  return stk.isStream(obj) && !!obj.readable;
+  return obj instanceof stream.Readable;
 };
 
 stk.isWritable = function isWritable(obj) {
-  return stk.isStream(obj) && !!obj.writable;
+  return obj instanceof stream.Writable || obj instanceof stream.Duplex;
 };
 
 stk.isTransform = function isTransform(obj) {
