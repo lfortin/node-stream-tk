@@ -64,6 +64,10 @@ stk.isEnded = function isEnded(obj) {
   return stk._isReadableEnded(obj) || stk._isWritableEnded(obj);
 };
 
+stk.isCorked = function isCorked(obj) {
+  return stk.isWritable(obj) && !!obj._writableState.corked;
+};
+
 stk.isPipeOn = function isPipeOn(source, dest) {
   var found = false;
 
@@ -108,6 +112,10 @@ stk.extend = function extend(obj) {
 
   obj.isEnded = (function() {
     return stk.isEnded(this);
+  }).bind(obj);
+
+  obj.isCorked = (function() {
+    return stk.isCorked(this);
   }).bind(obj);
 
   obj.isPipeOn = (function(dest) {
