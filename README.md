@@ -3,7 +3,7 @@ stream-tk
 
 `stream-tk` is a toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node.js.
 
-It supports the "[stream2](http://blog.nodejs.org/2012/12/20/streams2/)" and "stream3" APIs implemented in Node.js version 0.10.x and up.
+It supports the "[stream2](http://blog.nodejs.org/2012/12/20/streams2/)" and "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" APIs implemented in Node.js version 0.10.x and up.
 
 
 ## Installation
@@ -61,6 +61,7 @@ Returns `true` if object is a [Transform](http://nodejs.org/api/stream.html#stre
 ### .isFlowing( obj )
 
 Returns `true` if object is a [Readable](http://nodejs.org/api/stream.html#stream_class_stream_readable) data stream in flowing mode.
+(Relevant for the "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" API in Node.js version 0.11.5 and up.)
 
     readable.pause();
     
@@ -73,6 +74,7 @@ Returns `true` if object is a [Readable](http://nodejs.org/api/stream.html#strea
 ### .isPipeOn( source, destination )
 
 Returns `true` if Readable stream source in piped on Writable stream destination.
+(Relevant for the "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" API in Node.js version 0.11.5 and up.)
 
     stk.isPipeOn(readable, writable); // -> false
     
