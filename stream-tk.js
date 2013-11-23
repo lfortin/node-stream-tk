@@ -37,11 +37,11 @@ stk.isStream = function isStream(obj) {
 };
 
 stk.isReadable = function isReadable(obj) {
-  return stk.isStream(obj) && !!obj.readable;
+  return obj instanceof stream.Readable;
 };
 
 stk.isWritable = function isWritable(obj) {
-  return stk.isStream(obj) && !!obj.writable;
+  return obj instanceof stream.Writable || obj instanceof stream.Duplex;
 };
 
 stk.isTransform = function isTransform(obj) {
@@ -50,6 +50,22 @@ stk.isTransform = function isTransform(obj) {
 
 stk.isFlowing = function isFlowing(obj) {
   return stk.isReadable(obj) && !!obj._readableState.flowing;
+};
+
+stk._isReadableEnded = function (obj) {
+  return stk.isReadable(obj) && !!obj._readableState.ended;
+};
+
+stk._isWritableEnded = function (obj) {
+  return stk.isWritable(obj) && !!obj._writableState.ended;
+};
+
+stk.isEnded = function isEnded(obj) {
+  return stk._isReadableEnded(obj) || stk._isWritableEnded(obj);
+};
+
+stk.isCorked = function isCorked(obj) {
+  return stk.isWritable(obj) && !!obj._writableState.corked;
 };
 
 stk.isPipeOn = function isPipeOn(source, dest) {
@@ -92,6 +108,14 @@ stk.extend = function extend(obj) {
 
   obj.isFlowing = (function() {
     return stk.isFlowing(this);
+  }).bind(obj);
+
+  obj.isEnded = (function() {
+    return stk.isEnded(this);
+  }).bind(obj);
+
+  obj.isCorked = (function() {
+    return stk.isCorked(this);
   }).bind(obj);
 
   obj.isPipeOn = (function(dest) {
