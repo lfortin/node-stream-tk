@@ -169,6 +169,7 @@ tester.run(function() {
   );
 
   stk.extend(readable);
+  stk.extend(writable);
   stk.extend(through);
 
   assert.ok(readable.isReadable, ".isReadable() extended object method expected");
@@ -185,6 +186,13 @@ tester.run(function() {
   assert.deepEqual(readable.isFlowing(), true, "readable.isFlowing() : true expected");
   assert.deepEqual(readable.isPipeOn(through), true, "readable.isPipeOn(through) : true expected");
   assert.deepEqual(readable.isPipeOn(writable), false, "readable.isPipeOn(writable) : false expected");
+  if(writable.cork && writable.uncork) {
+    assert.deepEqual(writable.isCorked(), false, "writable.isCorked() : false expected");
+    writable.cork();
+    assert.deepEqual(writable.isCorked(), true, "writable.isCorked() : true expected");
+    writable.uncork();
+    assert.deepEqual(writable.isCorked(), false, "writable.isCorked() : false expected");
+  }
 
   assert.throws(
     function() {
