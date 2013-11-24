@@ -1,9 +1,9 @@
 stream-tk
 ==============
 
-A toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node.js
+`stream-tk` is a toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node.js.
 
-(More documentation to be added)
+It supports the "[stream2](http://blog.nodejs.org/2012/12/20/streams2/)" and "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" APIs implemented in Node.js version 0.10.x and up.
 
 
 ## Installation
@@ -61,6 +61,7 @@ Returns `true` if object is a [Transform](http://nodejs.org/api/stream.html#stre
 ### .isFlowing( obj )
 
 Returns `true` if object is a [Readable](http://nodejs.org/api/stream.html#stream_class_stream_readable) data stream in flowing mode.
+(Relevant for the "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" API in Node.js version 0.11.x and up.)
 
     readable.pause();
     
@@ -73,12 +74,42 @@ Returns `true` if object is a [Readable](http://nodejs.org/api/stream.html#strea
 ### .isPipeOn( source, destination )
 
 Returns `true` if Readable stream source in piped on Writable stream destination.
+(Relevant for the "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" API in Node.js version 0.11.x and up.)
 
     stk.isPipeOn(readable, writable); // -> false
     
     readable.pipe(writable);
     
     stk.isPipeOn(readable, writable); // -> true
+    
+### .isEnded( obj )
+
+Returns `true` if object is either a [Readable](http://nodejs.org/api/stream.html#stream_class_stream_readable)
+or [Writable](http://nodejs.org/api/stream.html#stream_class_stream_writable) data stream that has been ended.
+(Relevant for the "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" API in Node.js version 0.11.x and up.)
+
+    writable.end("no more data");
+    
+    stk.isEnded(writable); // -> true
+    
+    readable.push(null);
+    
+    stk.isEnded(readable); // -> true
+    
+### .isCorked( obj )
+
+Returns `true` if object is a [Writable](http://nodejs.org/api/stream.html#stream_class_stream_writable) data stream that has been corked using the [.cork()](http://nodejs.org/docs/v0.11.9/api/stream.html#stream_writable_cork) method.
+(Relevant for the "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" API in Node.js version 0.11.x and up.)
+
+    stk.isCorked(writable); // -> false
+    
+    writable.cork();
+    
+    stk.isCorked(writable); // -> true
+    
+    writable.uncork();
+    
+    stk.isCorked(writable); // -> false
     
 ## Extending stream objects using .extend( )
 
