@@ -59,6 +59,7 @@ tester.run(function() {
       obj       = {};
 
   readable._read = function(){};
+  writable._write = function(){};
   duplex._read = function(){};
 
   assert.deepEqual(stk.isStream(readable),  true,  "stk.isStream(readable) : true expected");
@@ -208,6 +209,16 @@ tester.run(function() {
     },
     "readable.pipe(through) : should not throw Error"
   );
+
+  assert.deepEqual(readable.isEnded(), false, "readable.isEnded() : false expected");
+  assert.deepEqual(writable.isEnded(), false, "writable.isEnded() : false expected");
+  assert.deepEqual(through.isEnded(), false, "through.isEnded() : false expected");
+  readable.push(null);
+  writable.end("no more data");
+  through.end("no more data");
+  assert.deepEqual(readable.isEnded(), true, "readable.isEnded() : true expected");
+  assert.deepEqual(writable.isEnded(), true, "writable.isEnded() : true expected");
+  assert.deepEqual(through.isEnded(), true, "through.isEnded() : true expected");
 
   process.stdout.write("extended object methods OK" + getEOL(1));
 });
