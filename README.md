@@ -111,6 +111,14 @@ Returns `true` if object is a [Writable](http://nodejs.org/api/stream.html#strea
     
     stk.isCorked(writable); // -> false
     
+## .bufferize( readable, buffer|length [, callback] )
+
+Fills a buffer from a [Readable](http://nodejs.org/api/stream.html#stream_class_stream_readable) data stream, and returns the destination buffer being filled. Either a buffer or a byte length must be provided. A callback may also be provided, and will be called when the buffer is full. Note that the buffer will accept flowing data(using [readable.resume()](http://nodejs.org/api/stream.html#stream_readable_resume)) or explicitely read data(using [readable.read()](http://nodejs.org/api/stream.html#stream_readable_read_size)).
+
+    var buf = stk.bufferize(readable, new Buffer(100), function(err, buf) {
+      console.log("filled buffer contains: ", buf.toString());
+    });
+    
 ## Extending stream objects using .extend( )
 
 The `.extend()` method allows you to extend stream objects with methods from the `stream-tk` API:
