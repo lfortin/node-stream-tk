@@ -1,6 +1,6 @@
 // Toolkit for handling Node.js data streams
 
-// Copyright (c) 2013 Laurent Fortin
+// Copyright (c) 2013-2014 Laurent Fortin
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@ var stream   = require('stream'),
 
 var stk = {};
 
-stk.version = '0.2.0';
+stk.version = '0.3.0';
 
 
 stk.isStream = function isStream(obj) {
