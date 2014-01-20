@@ -145,7 +145,7 @@ stk.createNull = function createNull(mode) {
   if(mode === "write") {
     return fs.createWriteStream("/dev/null");
   }
-  throw new Error("mode must me either 'read or 'write'");
+  throw new Error("mode must be either 'read or 'write'");
 };
 
 stk.createZero = function createZero(mode, length) {
@@ -158,7 +158,7 @@ stk.createZero = function createZero(mode, length) {
   if(mode === "write") {
     return fs.createWriteStream("/dev/zero");
   }
-  throw new Error("mode must me either 'read or 'write'");
+  throw new Error("mode must be either 'read or 'write'");
 };
 
 stk.createFull = function createFull(mode, length) {
@@ -171,7 +171,7 @@ stk.createFull = function createFull(mode, length) {
   if(mode === "write") {
     return fs.createWriteStream("/dev/full");
   }
-  throw new Error("mode must me either 'read or 'write'");
+  throw new Error("mode must be either 'read or 'write'");
 };
 
 stk.createRandom = function createRandom(mode, length) {
@@ -184,7 +184,7 @@ stk.createRandom = function createRandom(mode, length) {
   if(mode === "write") {
     return fs.createWriteStream("/dev/urandom");
   }
-  throw new Error("mode must me either 'read or 'write'");
+  throw new Error("mode must be either 'read or 'write'");
 };
 
 module.exports = stk;
