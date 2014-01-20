@@ -83,9 +83,12 @@ stk.bufferize = function bufferize(source, buf, callback) {
     throw new Error("destination must be a Buffer of a number");
   }
 
-  buf = Buffer.isBuffer(buf) ? buf : new Buffer(buf);
+  // prevent change flowing mode when attaching 'data' handler
+  if(!stk.isFlowing(source)) {
+    source.pause();
+  }
 
-  var flowing = stk.isFlowing(source);
+  buf = Buffer.isBuffer(buf) ? buf : new Buffer(buf);
 
   handler = function(data) {
     try {
@@ -103,10 +106,6 @@ stk.bufferize = function bufferize(source, buf, callback) {
   };
 
   source.on('data', handler);
-
-  if(!flowing) {
-    source.pause();
-  }
 
   return buf;
 };
