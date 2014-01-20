@@ -122,6 +122,10 @@ stk.extend = function extend(obj) {
     return stk.isPipeOn(this, dest);
   }).bind(obj);
 
+  obj.bufferize = (function(buf, callback) {
+    return stk.bufferize(this, buf, callback);
+  }).bind(obj);
+
   /** add custom behavior and properties here **/
 
   // prevent potentially infinite loop
