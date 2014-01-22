@@ -37,7 +37,6 @@ Returns `true` if object is a [Readable](http://nodejs.org/api/stream.html#strea
     
     stk.isReadable(readable); // -> true
     stk.isReadable(process.stdin); // -> true
-    stk.isReadable(process.stdout); // -> false
 
 ### .isWritable( obj )
 
@@ -46,7 +45,6 @@ Returns `true` if object is a [Writable](http://nodejs.org/api/stream.html#strea
     var writable = new stream.Writable();
     
     stk.isWritable(writable); // -> true
-    stk.isWritable(process.stdin); // -> false
     stk.isWritable(process.stdout); // -> true
     
 ### .isTransform( obj )
