@@ -29,7 +29,7 @@ var stream   = require('stream'),
 
 var stk = {};
 
-stk.version = '0.3.0';
+stk.version = '0.3.1';
 
 
 stk.isStream = function isStream(obj) {
