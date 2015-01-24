@@ -1,7 +1,7 @@
 stream-tk
 ==============
 
-`stream-tk` is a toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node.js.
+`stream-tk` is a small experimental toolkit for handling data [streams](http://nodejs.org/api/stream.html) in Node.js.
 
 It supports the "[stream2](http://blog.nodejs.org/2012/12/20/streams2/)" and "[stream3](https://github.com/joyent/node/commit/0f8de5e1f96a07fa6de837378d29ac5f2719ec60)" APIs implemented in Node.js version 0.10.x and up.
 
