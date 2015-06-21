@@ -23,6 +23,7 @@
 
 
 var stream   = require('stream'),
+    rstream  = require('readable-stream'),
     util     = require('util'),
     fs       = require('fs');
 
@@ -33,19 +34,23 @@ stk.version = '0.3.2';
 
 
 stk.isStream = function isStream(obj) {
-  return obj instanceof stream.Readable || obj instanceof stream.Writable;
+  return stk.isReadable(obj) || stk.isWritable(obj);
 };
 
 stk.isReadable = function isReadable(obj) {
-  return obj instanceof stream.Readable;
+  return obj instanceof stream.Readable || obj instanceof rstream.Readable;
 };
 
 stk.isWritable = function isWritable(obj) {
-  return obj instanceof stream.Writable || obj instanceof stream.Duplex;
+  return obj instanceof stream.Writable || obj instanceof rstream.Writable || stk.isDuplex(obj);
+};
+
+stk.isDuplex = function isDuplex(obj) {
+  return obj instanceof stream.Duplex || obj instanceof rstream.Duplex;
 };
 
 stk.isTransform = function isTransform(obj) {
-  return obj instanceof stream.Transform;
+  return obj instanceof stream.Transform || obj instanceof rstream.Transform;
 };
 
 stk.isFlowing = function isFlowing(obj) {
