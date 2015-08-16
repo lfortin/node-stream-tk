@@ -4,6 +4,7 @@ var assert = require('assert'),
     domain = require('domain'),
     os = require('os'),
     stream = require('stream'),
+    rstream = require('readable-stream'),
     stk = require('./stream-tk');
 
 function getEOL(n) {
@@ -51,12 +52,14 @@ tester.run(function() {
 
 
   // test methods
-  var readable  = new stream.Readable(),
-      writable  = new stream.Writable(),
-      duplex    = new stream.Duplex(),
-      transform = new stream.Transform(),
-      through   = new stream.PassThrough(),
-      obj       = {};
+  ([stream, rstream]).forEach(function(stream) {
+  
+  var readable   = new stream.Readable(),
+      writable   = new stream.Writable(),
+      duplex     = new stream.Duplex(),
+      transform  = new stream.Transform(),
+      through    = new stream.PassThrough(),
+      obj        = {};
 
   readable._read = function(){};
   writable._write = function(){};
@@ -157,6 +160,7 @@ tester.run(function() {
   readable.unpipe(writable);
   assert.deepEqual(stk.isPipeOn(readable, writable),  false, "stk.isPipeOn(readable, writable) : false expected");
 
+  
   process.stdout.write("test methods OK" + getEOL(1));
 
 
@@ -248,6 +252,9 @@ tester.run(function() {
   assert.deepEqual(through.isEnded(), true, "through.isEnded() : true expected");
 
   process.stdout.write("extended object methods OK" + getEOL(1));
+    
+    
+}); // end forEach stream / readable-stream
 
 });
 
