@@ -139,7 +139,7 @@ The `.extend()` method allows you to extend stream objects with methods from the
 ## UNIX pseudo devices API
 
 `stream-tk` provides data stream mappings to UNIX pseudo devices(`/dev/null`, `/dev/zero`, `/dev/full`, `/dev/urandom`).
-Currently, this feature is not available for the Windows platform, but it might be supported later.
+(Also works on the Windows platform, however UNIX pseudo devices are simulated.)
 
 ### .createNull( mode )
 
