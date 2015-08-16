@@ -1,7 +1,6 @@
 
 
 var assert = require('assert'),
-    domain = require('domain'),
     os = require('os'),
     stream = require('stream'),
     stk = require('./stream-tk');
@@ -17,15 +16,8 @@ function getEOL(n) {
 process.stdout.write("running tests..." + getEOL(2));
 
 
-var tester = domain.create();
 
-tester.on('error', function(error) {
-  process.stderr.write(error + getEOL(2));
-  process.exit();
-});
-
-
-tester.run(function() {
+assert.doesNotThrow(function() {
 
   // API signature
   assert.ok(stk.isStream, ".isStream() method expected");
@@ -249,5 +241,8 @@ tester.run(function() {
 
   process.stdout.write("extended object methods OK" + getEOL(1));
 
+}, function(error) {
+  process.stderr.write(error + getEOL(2));
+  process.exit();
 });
 
