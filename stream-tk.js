@@ -25,7 +25,8 @@
 var stream   = require('stream'),
     rstream  = require('readable-stream'),
     util     = require('util'),
-    fs       = require('fs');
+    fs       = require('fs'),
+    pseudoDevices = require('./lib/_pseudo_devices');
 
 
 var stk = {};
@@ -186,54 +187,13 @@ stk.bufferize = function bufferize(source, buf, callback) {
 };
 
 
-stk.createNull = function createNull(mode) {
-  if(mode === "read") {
-    return fs.createReadStream("/dev/null");
-  }
-  if(mode === "write") {
-    return fs.createWriteStream("/dev/null");
-  }
-  throw new Error("mode must be either 'read or 'write'");
-};
+stk.createNull = pseudoDevices.createNull;
 
-stk.createZero = function createZero(mode, length) {
-  if(mode === "read") {
-    if(!Number(length)) {
-      throw new Error("must provide length in bytes");
-    }
-    return fs.createReadStream("/dev/zero", {start: 0, end: length-1});
-  }
-  if(mode === "write") {
-    return fs.createWriteStream("/dev/zero");
-  }
-  throw new Error("mode must be either 'read or 'write'");
-};
+stk.createZero = pseudoDevices.createZero;
 
-stk.createFull = function createFull(mode, length) {
-  if(mode === "read") {
-    if(!Number(length)) {
-      throw new Error("must provide length in bytes");
-    }
-    return fs.createReadStream("/dev/full", {start: 0, end: length-1});
-  }
-  if(mode === "write") {
-    return fs.createWriteStream("/dev/full");
-  }
-  throw new Error("mode must be either 'read or 'write'");
-};
+stk.createFull = pseudoDevices.createFull;
 
-stk.createRandom = function createRandom(mode, length) {
-  if(mode === "read") {
-    if(!Number(length)) {
-      throw new Error("must provide length in bytes");
-    }
-    return fs.createReadStream("/dev/urandom", {start: 0, end: length-1});
-  }
-  if(mode === "write") {
-    return fs.createWriteStream("/dev/urandom");
-  }
-  throw new Error("mode must be either 'read or 'write'");
-};
+stk.createRandom = pseudoDevices.createRandom;
 
 module.exports = stk;
 
